@@ -1,0 +1,2 @@
+{{- /* Short content hash of a file, for ?v= in its URL: the URL changes whenever the file does, so browsers never use a stale copy. */ -}}
+{{- return substr (md5 (readFile .)) 0 8 -}}

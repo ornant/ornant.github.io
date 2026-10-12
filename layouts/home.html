@@ -1,0 +1,89 @@
+{{ define "style" }}
+a:hover{opacity:.55!important}
+@keyframes hkFade{from{opacity:0}to{opacity:1}}
+.bg{position:fixed;inset:0;z-index:0;background:#413734}
+.glow{z-index:1}
+.hero{position:relative;z-index:3;display:flex;flex-direction:column;justify-content:center;min-height:100vh;padding:56px 0}
+.skywrap{margin-top:-0.667%}
+.sky{position:relative;width:100%;aspect-ratio:1800/360;min-height:150px}
+.sky svg{display:block;width:100%;height:100%}
+.sky .b{opacity:.92;transition:opacity .3s ease-out;cursor:default}
+.sky.h .b{opacity:.3}
+.sky.h .b.on{opacity:1}
+.sky-label{position:absolute;left:max(14px,1.67%);bottom:calc(30% + 70px)}
+.sky-label span{display:inline-block;animation:hkFade .3s ease-out}
+.ground{position:absolute;left:1.667%;right:1.667%;bottom:0;height:1px;background:#f5f5f4;opacity:.18}
+.main{display:flex;justify-content:center;align-items:flex-start;padding:56px 32px 0}
+.name{position:relative;overflow:hidden}
+.name .in{display:flex;justify-content:space-between;gap:.3em;font-weight:800;text-transform:uppercase;line-height:1;white-space:nowrap;opacity:.92}
+.bio{font-weight:400;line-height:1.5;text-align:justify}
+.bio span{opacity:.92;transition:opacity .3s ease-out;cursor:default}
+.bio.h span{opacity:.4}
+.bio.h span.on{opacity:1}
+.links{position:relative;display:flex;justify-content:space-between;align-items:center}
+.links a{border-bottom:1px solid rgba(245,245,244,.5);padding-bottom:1px}
+.latest{display:flex;gap:.6em;line-height:1;opacity:.6}
+.links a,.latest{position:relative}
+.links a::after,.latest::after{content:'';position:absolute;inset:-10px -4px} /* bigger tap area, same look */
+.end{padding:0 max(14px,1.667%)}
+@media (max-width:639px){.hero{padding:32px 0}.main{padding-top:36px}}
+@media (max-width:479px){.main{padding-left:16px;padding-right:16px}}
+{{ end }}
+
+{{ define "main" }}
+<div class="hero">
+<div class="skywrap"><div class="sky" id="sky"><div class="sky-label cap"><span id="sky-label">60.1699° N · 24.9384° E</span></div><div class="ground"></div></div></div>
+<div class="main">
+<div class="col" id="col">
+<div class="name" id="name"><div class="in"><span>Oiva</span><span>Rantala</span></div></div>
+<div class="bio" id="bio"><span>Practicing curated taste and emergent generalization @ company.</span> <span>Software, AI, markets and design.</span> <span>I care about beautiful things and their details.</span></div>
+<nav class="links" id="links"><a href="/writing/">writing</a><a href="https://www.goodreads.com/oivaa">books</a><a href="https://github.com/ornant">github</a><a href="#cv">cv</a><a href="https://www.linkedin.com/in/oivar/">linkedin</a></nav>
+{{ with (where site.RegularPages "Section" "writing").ByDate.Reverse }}{{ with index . 0 }}<a class="latest" id="latest" href="{{ .RelPermalink }}"><span>Latest</span><span>{{ .Title }} →</span></a>{{ end }}{{ else }}<span class="latest" id="latest" style="visibility:hidden"></span>{{ end }}
+</div>
+</div>
+</div>
+{{ end }}
+
+{{ define "scripts" }}<script src="/js/skyline.js?v={{ partial "version.html" "static/js/skyline.js" }}"></script>
+<script src="/js/site.js?v={{ partial "version.html" "static/js/site.js" }}"></script>
+<script>
+(function(){
+  const name = document.getElementById('name'), inner = name.firstChild, [w0, w1] = inner.children;
+  const col = document.getElementById('col'), bio = document.getElementById('bio'), links = document.getElementById('links'), latest = document.getElementById('latest');
+  const [, bk, gh, cv, li] = links.children;
+  function layout(){
+    const vw = innerWidth, g = vw < 480 ? 16 : 32, mob = vw < 640;
+    const cw = Math.max(260, Math.min(764, vw - 2 * g)), sc = Math.min(1, cw / 764);
+    const fs = Math.max(13, Math.round(19 * (mob ? .85 : 1) * sc)), ns = Math.max(22, Math.round(50 * sc));
+    const gap = Math.max(14, ns * .7), nfs = Math.round(ns * 1.2), cut = Math.max(.5, nfs * .01), k = (0.041 * nfs).toFixed(2);
+    col.style.width = cw + 'px';
+    name.style.height = (nfs * .727 - 2 * cut) + 'px';
+    name.style.marginBottom = gap + 'px';
+    Object.assign(inner.style, { fontSize: nfs + 'px', marginTop: (-0.137 * nfs - cut) + 'px', letterSpacing: `calc(1.314vw - ${k}px)`, marginRight: `calc(-1.314vw + ${k}px)` });
+    w0.style.marginLeft = (-0.026 * nfs) + 'px';
+    w1.style.marginRight = (-0.026 * nfs) + 'px';
+    bio.style.fontSize = fs + 'px';
+    links.style.fontSize = fs + 'px';
+    links.style.marginTop = gap + 'px';
+    latest.style.fontSize = Math.max(12, fs - 4) + 'px';
+    latest.style.marginTop = Math.max(22, fs * 1.4) + 'px';
+    const box = inner.getBoundingClientRect(), ls = parseFloat(getComputedStyle(inner).letterSpacing) || 0;
+    Object.assign(bk.style, { position: 'absolute', top: 0, right: (cw - (w0.getBoundingClientRect().right - ls - box.left)) + 'px' });
+    Object.assign(gh.style, { position: 'absolute', top: 0, left: (w1.getBoundingClientRect().left - box.left) + 'px' });
+    // cv: centered between github and linkedin, under RANTALA
+    const lb = links.getBoundingClientRect(), gr = gh.getBoundingClientRect(), lr = li.getBoundingClientRect();
+    Object.assign(cv.style, { position: 'absolute', top: 0, left: ((gr.right + lr.left) / 2 - cv.offsetWidth / 2 - lb.left) + 'px' });
+    // Phones: OIVA is too short for writing + books, so spread all five links evenly instead
+    if (mob) [bk, gh, cv].forEach(a => Object.assign(a.style, { position: 'relative', top: '', left: '', right: '' }));
+  }
+  layout();
+  document.fonts && document.fonts.ready.then(layout);
+  addEventListener('resize', layout);
+  addEventListener('load', layout);
+  new ResizeObserver(layout).observe(document.documentElement);
+  [...bio.children].forEach(s => {
+    s.addEventListener('mouseenter', () => { bio.classList.add('h'); s.classList.add('on'); });
+    s.addEventListener('mouseleave', () => { bio.classList.remove('h'); s.classList.remove('on'); });
+  });
+})();
+</script>{{ end }}

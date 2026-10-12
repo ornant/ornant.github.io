@@ -1,0 +1,72 @@
+{{ define "title" }}{{ .Title }} — Oiva Rantala{{ end }}
+
+{{ define "style" }}
+:root{--read:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Geist",ui-sans-serif,system-ui,sans-serif}
+.meta{display:flex;justify-content:space-between;gap:16px;margin-top:56px}
+h1{font-family:var(--read);font-size:44px;font-weight:700;line-height:1.1;letter-spacing:-.022em;margin:18px 0 35px;text-wrap:balance}
+.hero-img{display:block;width:100%;aspect-ratio:764/264;object-fit:cover;border-radius:3px}
+.rule{height:1px;background:rgba(245,245,244,.18);margin:48px 0}
+.prose{font-family:var(--read);font-size:20px;line-height:1.62} /* the full 764px column, like the rest of the site */
+.prose>*{margin:0 0 1.1em}
+.prose p,.prose li{opacity:.92;text-wrap:pretty}
+.prose h2{font-size:26px;font-weight:700;line-height:1.25;letter-spacing:-.015em;margin:2em 0 .6em}
+.prose h3{font-size:21px;font-weight:600;line-height:1.3;margin:1.6em 0 .5em}
+.prose a{border-bottom:1px solid rgba(245,245,244,.5)}
+.prose ul,.prose ol{padding-left:1.2em}
+.prose li{margin:.3em 0}
+.prose blockquote{margin:1.6em 0;padding-left:1.2em;font-style:italic;opacity:.8}
+.prose blockquote p{opacity:1;text-wrap:inherit} /* Markdown wraps quote text in <p>; keep the quote at .8 like the design */
+.prose code{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:.88em;background:rgba(0,0,0,.2);padding:.12em .35em;border-radius:3px;white-space:nowrap}
+.prose pre{background:rgba(0,0,0,.22);border-radius:3px;padding:18px 20px;overflow-x:auto;font-size:15px;line-height:1.55}
+.prose pre code{background:none;padding:0;font-size:inherit;white-space:inherit}
+.prose img{max-width:100%;border-radius:3px}
+@media (max-width:640px){h1{font-size:30px}.prose{font-size:17px}.prose h2{font-size:22px}.prose h3{font-size:18px}.prose pre{font-size:13px;padding:14px 16px}}
+.back{display:flex;justify-content:space-between;gap:16px}
+.prose hr{border:0;height:1px;background:rgba(245,245,244,.18);margin:56px 0} /* --- in Markdown */
+.swatch{display:inline-block;width:.8em;height:.8em;margin-right:.45em;border-radius:2px;vertical-align:-.06em;box-shadow:inset 0 0 0 1px rgba(245,245,244,.3)}
+.prose .sketch{margin:2em 0}
+.sketch canvas{display:block;width:100%;border-radius:3px;background:rgba(0,0,0,.22);touch-action:pan-y} /* vertical swipes scroll the page */
+.sketch figcaption{margin-top:12px;font-family:'Inter Tight',system-ui,sans-serif;font-size:14px;letter-spacing:.18em;opacity:.6}
+.sketch svg{display:block;width:100%;height:auto;font-size:15px} /* 1em of diagram text; larger on small screens so labels stay readable */
+@media (max-width:828px){.sketch svg{font-size:18px}}
+@media (max-width:640px){.sketch svg{font-size:21px}}
+@media (max-width:480px){.sketch svg{font-size:26px}}
+/* sketch controls (sliders and toggles) */
+.sketch .controls{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:14px;font-family:'Inter Tight',system-ui,sans-serif;font-size:14px;letter-spacing:.18em;color:rgba(245,245,244,.6)}
+.sketch .controls label{display:flex;align-items:center;gap:10px;cursor:pointer}
+.sketch .controls output{min-width:3ch;font-variant-numeric:tabular-nums;letter-spacing:0}
+.sketch input{appearance:none;-webkit-appearance:none;margin:0;background:none;cursor:pointer}
+.sketch input[type=range]{width:120px;height:18px}
+.sketch input[type=range]::-webkit-slider-runnable-track{height:1px;background:rgba(245,245,244,.35)}
+.sketch input[type=range]::-moz-range-track{height:1px;background:rgba(245,245,244,.35)}
+.sketch input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;height:11px;margin-top:-5px;border:0;border-radius:50%;background:#f5f5f4}
+.sketch input[type=range]::-moz-range-thumb{width:11px;height:11px;border:0;border-radius:50%;background:#f5f5f4}
+.sketch input[type=checkbox]{width:11px;height:11px;border:1px solid rgba(245,245,244,.6);border-radius:50%}
+.sketch input[type=checkbox]:checked{background:#f5f5f4;border-color:#f5f5f4}
+@media (pointer:coarse){.sketch input[type=range]{width:140px;height:32px}.sketch input[type=range]::-webkit-slider-thumb{width:18px;height:18px;margin-top:-9px}.sketch input[type=range]::-moz-range-thumb{width:18px;height:18px}.sketch input[type=checkbox]{width:18px;height:18px}} /* finger-sized controls */
+/* math */
+.prose .katex-display{margin:1.6em 0;overflow-x:auto;overflow-y:hidden;padding:.2em 0}
+/* code colours */
+.prose .highlight pre{margin:0}
+.chroma .k,.chroma .kc,.chroma .kd,.chroma .kn,.chroma .kp,.chroma .kr,.chroma .kt,.chroma .nb,.chroma .bp,.chroma .nt{color:#d9a77e}
+.chroma .s,.chroma .sa,.chroma .sb,.chroma .sc,.chroma .dl,.chroma .sd,.chroma .s1,.chroma .s2,.chroma .se,.chroma .sh,.chroma .si,.chroma .sx,.chroma .sr,.chroma .ss{color:#c8b89a}
+.chroma .m,.chroma .mb,.chroma .mf,.chroma .mh,.chroma .mi,.chroma .il,.chroma .mo{color:#e6c49a}
+.chroma .c,.chroma .ch,.chroma .cm,.chroma .c1,.chroma .cs,.chroma .cp,.chroma .cpf{color:rgba(245,245,244,.42);font-style:italic}
+.chroma .nf,.chroma .fm,.chroma .nc{color:#fff}
+.chroma .o,.chroma .ow,.chroma .p{color:rgba(245,245,244,.6)}
+{{ end }}
+
+{{ define "main" }}
+<main class="wrap">
+<nav class="top"><a class="cap" href="/writing/">← writing</a><span class="cap" id="hki-time">00:00:00</span></nav>
+<div class="meta"><span class="cap">{{ .Date | time.Format "January 2006" | lower }}</span><span class="cap">{{ .Params.tag }}</span></div>
+<h1>{{ .Title }}</h1>
+{{ with .Params.image }}{{ $src := . }}{{ with $.Resources.Get . }}{{ $src = printf "%s?v=%s" .RelPermalink (substr (md5 .Content) 0 8) }}{{ end }}<img class="hero-img" src="{{ $src }}" alt="{{ $.Params.alt }}">{{ end }}
+<div class="rule"></div>
+<article class="prose">
+{{ .Content }}
+</article>
+<div class="rule"></div>
+<nav class="back"><a class="cap" href="/writing/">← all writing</a><a class="cap" href="/">oiva rantala</a></nav>
+</main>
+{{ end }}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ block "title" . }}Oiva Rantala{{ end }}</title>
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{{ if .IsHome }}<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;800&display=swap" rel="stylesheet">
+{{ else }}<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;800&family=Geist:wght@400;600;700&display=swap" rel="stylesheet">
+{{ end }}<link rel="stylesheet" href="/css/site.css?v={{ partial "version.html" "static/css/site.css" }}">
+{{ $noop := .WordCount }}{{ if .Store.Get "hasMath" }}<link rel="stylesheet" href="/katex/katex.min.css?v={{ partial "version.html" "static/katex/katex.min.css" }}">
+{{ end }}<style>
+{{ block "style" . }}{{ end }}
+</style>
+</head>
+{{ if .IsHome }}<body>
+<div class="bg"></div>
+{{ else }}<body class="page">
+{{ end }}<div class="glow"></div>
+<div class="grain" id="grain"></div>
+{{ block "main" . }}{{ end }}
+<footer class="end">
+<div class="row"><span class="cap">accelerate</span><span class="cap">© 2026</span></div>
+<div class="fit" data-fit="ONWARD"></div>
+<div class="pad"></div>
+</footer>
+{{ block "scripts" . }}<script src="/js/site.js?v={{ partial "version.html" "static/js/site.js" }}"></script>{{ end }}
+{{ if .HasShortcode "sketch" }}<script type="module" src="/js/sketch.js?v={{ partial "version.html" "static/js/sketch.js" }}"></script>
+{{ end }}</body>
+</html>

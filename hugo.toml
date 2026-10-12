@@ -1,0 +1,32 @@
+# The deploy workflow passes the real site address with --baseURL.
+baseURL = "/"
+languageCode = "en"
+title = "Oiva Rantala"
+disableHugoGeneratorInject = true
+
+# Only the homepage, /writing/ and the posts (plus sitemap.xml).
+disableKinds = ["taxonomy", "term", "rss", "404"]
+
+# Root-relative links like /css/site.css also work when the site lives in a
+# subfolder (username.github.io/personalsite/).
+canonifyURLs = true
+
+# Every post in content/writing is published: no drafts, and dates are labels, not schedules.
+buildDrafts = true
+buildFuture = true
+
+[markup.goldmark.renderer]
+unsafe = true # allow raw HTML in posts
+
+[markup.highlight]
+noClasses = false # code colours come from the post CSS (layouts/page.html)
+
+# Math: \( inline \) and $$ display $$, rendered to HTML when the site builds
+# (layouts/_markup/render-passthrough.html). No $ for inline math, so prices stay prices.
+# static/katex holds the styles and fonts for KaTeX 0.18.4, the version built into Hugo 0.166.
+# If a Hugo upgrade changes its KaTeX version, replace static/katex with the matching release.
+[markup.goldmark.extensions.passthrough]
+enable = true
+[markup.goldmark.extensions.passthrough.delimiters]
+block = [['\[', '\]'], ['$$', '$$']]
+inline = [['\(', '\)']]

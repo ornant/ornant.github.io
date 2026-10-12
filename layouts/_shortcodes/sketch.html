@@ -1,0 +1,9 @@
+{{- /* Canvas sketch, see static/js/sketch.js. The .js file lives in the post's folder. */ -}}
+{{- $src := .Get "src" -}}
+{{- with .Page.Resources.Get $src }}{{ $src = printf "%s?v=%s" .RelPermalink (substr (md5 .Content) 0 8) }}{{ else }}{{ errorf "sketch: %q not found. The post must be a folder (%s/index.md) with the file inside." $src $.Page.File.ContentBaseName }}{{ end -}}
+<figure class="sketch">
+<canvas data-sketch="{{ $src }}" style="{{ printf "aspect-ratio:%s" (.Get "ratio" | default "16/9") | safeCSS }}"{{ with .Get "alt" }} role="img" aria-label="{{ . }}"{{ end }}></canvas>
+{{- with .Get "caption" }}
+<figcaption>{{ . }}</figcaption>
+{{- end }}
+</figure>

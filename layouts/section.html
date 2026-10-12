@@ -1,0 +1,35 @@
+{{ define "title" }}Writing — Oiva Rantala{{ end }}
+
+{{ define "style" }}
+.top a.cap:hover{opacity:.3}
+.split{display:flex;justify-content:space-between;align-items:flex-start;gap:.3em;font-variant-numeric:tabular-nums;overflow:hidden}
+.split>span{display:block}
+.title{margin:22px 0 0}
+.rule{height:1px;background:rgba(245,245,244,.18);margin:35px 0 56px}
+.posts{display:flex;flex-direction:column;gap:72px}
+.post{display:flex;flex-direction:column;gap:16px;transition:opacity .3s ease-out}
+.posts .post:hover{opacity:1}
+.post img{display:block;width:100%;aspect-ratio:764/264;object-fit:cover;border-radius:3px}
+.meta{display:flex;justify-content:space-between;gap:16px}
+.post h2{margin:4px 0 0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Geist",ui-sans-serif,system-ui,sans-serif;font-size:28px;font-weight:600;line-height:1.2;letter-spacing:-.015em;text-wrap:pretty}
+.post p{margin:0;font-size:19px;line-height:1.5;opacity:.92;text-wrap:pretty}
+@media (max-width:640px){.post h2{font-size:22px}.post p{font-size:16px}}
+{{ end }}
+
+{{ define "main" }}
+{{ $posts := .Pages.ByDate.Reverse }}
+<main class="wrap">
+<nav class="top"><a class="cap" href="/">← oiva rantala</a><span class="cap" id="hki-time">helsinki</span></nav>
+<div class="fit title split" id="title"><span>WRITING</span><span id="count">{{ printf "%02d" (len $posts) }}</span></div>
+<div class="rule"></div>
+<div class="posts">
+{{ range $i, $p := $posts }}
+<a class="post" href="{{ .RelPermalink }}">
+{{ with .Params.image }}{{ $src := . }}{{ with $p.Resources.Get . }}{{ $src = printf "%s?v=%s" .RelPermalink (substr (md5 .Content) 0 8) }}{{ end }}<img src="{{ $src }}" alt="{{ $p.Params.alt }}"{{ if $i }} loading="lazy"{{ end }}>{{ end }}
+<div class="meta"><span class="cap">{{ .Date | time.Format "January 2006" | lower }}</span><span class="cap">{{ .Params.tag }}</span></div>
+<h2>{{ .Title }}</h2>
+</a>
+{{ end }}
+</div>
+</main>
+{{ end }}
