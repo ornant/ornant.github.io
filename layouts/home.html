@@ -36,7 +36,7 @@ a:hover{opacity:.55!important}
 <div class="main">
 <div class="col" id="col">
 <div class="name" id="name"><div class="in"><span>Oiva</span><span>Rantala</span></div></div>
-<div class="bio" id="bio"><span>Practicing curated taste and emergent generalization @ company.</span> <span>Software, AI, markets and design.</span> <span>I care about beautiful things and their details.</span></div>
+<div class="bio" id="bio"><span>Math & CS @ uni of Helsinki.</span> <span>Quantitative developer @ Skinsauna.</span> <span>Passionate about systems, markets and design.</span> <span>I care about beautiful things and their details.</span></div>
 <nav class="links" id="links"><a href="/writing/">writing</a><a href="https://www.goodreads.com/oivaa">books</a><a href="https://github.com/ornant">github</a><a href="#cv">cv</a><a href="https://www.linkedin.com/in/oivar/">linkedin</a></nav>
 {{ with (where site.RegularPages "Section" "writing").ByDate.Reverse }}{{ with index . 0 }}<a class="latest" id="latest" href="{{ .RelPermalink }}"><span>Latest</span><span>{{ .Title }} →</span></a>{{ end }}{{ else }}<span class="latest" id="latest" style="visibility:hidden"></span>{{ end }}
 </div>
